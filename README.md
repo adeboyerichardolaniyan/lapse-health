@@ -93,12 +93,6 @@ Raw source text is stored as data, not SQL. Pipeline SQL assets are static trans
 columns, and any ad-hoc or application consumer must use parameterized queries instead of
 concatenating CMS, FDA, or openFDA text values into SQL strings.
 
-## Ask it (examples)
-> Which drugs lose protection in the next 18 months and have over $500M in annual Medicare spending?
-
-> Show the top 10 generic-entry opportunities ranked by score, with expiry dates and market size.
-
-*(screenshots of the AI analyst answering these go here)*
 
 ## A note on the data
 CMS keys on drug names and the Orange Book keys on application numbers, so the join between revenue
