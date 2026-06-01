@@ -86,6 +86,12 @@ custom_checks:
   - name: exported names are display cased
     query: select count(*) from marts.site_opportunities where regexp_matches(name, '[A-Z]{4,}') and not regexp_matches(name, '[a-z]')
     value: 0
+  - name: exported nullable text rejects placeholders
+    query: select count(*) from marts.site_opportunities where lower(trim(coalesce(drug_class, ''))) in ('nan', 'null', 'none', 'n/a', 'na') or lower(trim(coalesce(mechanism, ''))) in ('nan', 'null', 'none', 'n/a', 'na') or lower(trim(coalesce(description, ''))) in ('nan', 'null', 'none', 'n/a', 'na')
+    value: 0
+  - name: exported descriptions contain letters
+    query: select count(*) from marts.site_opportunities where description is not null and not regexp_matches(description, '[A-Za-z]')
+    value: 0
 @bruin"""
 
 from __future__ import annotations
@@ -107,6 +113,7 @@ CONTROL_CHARACTER_PATTERN = re.compile(r"[\x00-\x1f\x7f]+")
 UNSAFE_UI_TEXT_PATTERN = re.compile(r"[^A-Za-z0-9,.;:()/%+ \-]+")
 WHITESPACE_PATTERN = re.compile(r"\s+")
 NAME_SEPARATOR_PATTERN = re.compile(r"([/-])")
+PLACEHOLDER_TEXT_PATTERN = re.compile(r"[\s./_-]+")
 DISPLAY_NAME_ACRONYMS = {
     "CD",
     "CR",
@@ -168,6 +175,7 @@ def _source_rows() -> list[dict[str, Any]]:
 
 
 def _export_row(row: dict[str, Any]) -> dict[str, Any]:
+    row_id = str(row["id"])
     months = _int_or_none(row.get("months_to_window"))
     market_size_score = _float_or_none(row.get("market_size_score"))
     timing_score = _float_or_none(row.get("timing_score"))
@@ -175,11 +183,11 @@ def _export_row(row: dict[str, Any]) -> dict[str, Any]:
     filer_count = _int_or_zero(row.get("filer_count"))
     modality = str(row["drug_modality"])
     return {
-        "id": str(row["id"]),
-        "rank": _int_or_zero(row["rank"]),
+        "id": row_id,
+        "rank": _required_int(row.get("rank"), "rank", row_id),
         "name": _display_name(row.get("encoded_name")),
         "drug_modality": modality,
-        "opportunity_score": _float_or_none(row.get("opportunity_score")),
+        "opportunity_score": _required_float(row.get("opportunity_score"), "opportunity_score", row_id),
         "market_size_score": market_size_score,
         "timing_score": timing_score,
         "competition_score": competition_score,
@@ -261,7 +269,8 @@ def _window_label(months: int | None) -> str:
         return "Opens now"
     if months <= 18:
         return f"Opens in {months} mo"
-    year = datetime.now(UTC).year + ((datetime.now(UTC).month + months - 1) // 12)
+    now = datetime.now(UTC)
+    year = now.year + ((now.month + months - 1) // 12)
     return f"Opens {year}" if months <= 60 else f"Opens {year} (distant)"
 
 
@@ -278,6 +287,8 @@ def _decode_bounded_text(value: object) -> str:
 
 def _nullable_text(value: object, max_chars: int) -> str | None:
     text = _ui_safe_text(value, max_chars)
+    if PLACEHOLDER_TEXT_PATTERN.sub("", text).lower() in {"nan", "null", "none", "na"}:
+        return None
     return text or None
 
 
@@ -315,10 +326,24 @@ def _float_or_none(value: object) -> float | None:
     return float(value)
 
 
+def _required_float(value: object, field: str, row_id: str) -> float:
+    parsed = _float_or_none(value)
+    if parsed is None:
+        raise ValueError(f"Cannot export opportunity {row_id}: required {field} is null")
+    return parsed
+
+
 def _int_or_none(value: object) -> int | None:
     if value is None:
         return None
     return int(value)
+
+
+def _required_int(value: object, field: str, row_id: str) -> int:
+    parsed = _int_or_none(value)
+    if parsed is None:
+        raise ValueError(f"Cannot export opportunity {row_id}: required {field} is null")
+    return parsed
 
 
 def _int_or_zero(value: object) -> int:

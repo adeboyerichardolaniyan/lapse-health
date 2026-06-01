@@ -7,14 +7,17 @@
   <meta name="description" content="Ranked map of branded drugs by how attractive their upcoming patent / exclusivity expiry makes them as a generic or biosimilar target." />
   <!-- Run locally:  cd site && python3 -m http.server 8000  →  http://localhost:8000/
        Static, offline, zero dependencies. The only fetch is data/opportunities.json. -->
-  <link rel="stylesheet" href="app.css?v=phase13-breakdown" />
+  <link rel="stylesheet" href="app.css?v=phase13-about" />
 </head>
 <body>
   <a class="skip-link" href="#worklist">Skip to ranked list</a>
 
   <header class="topbar">
     <div class="brand">
-      <h1>Lapse</h1>
+      <div class="brand-row">
+        <h1>Lapse</h1>
+        <button class="about-link" id="about-open" type="button" aria-haspopup="dialog">What&rsquo;s Lapse?</button>
+      </div>
       <p class="tagline">Generic &amp; biosimilar opportunity map</p>
     </div>
     <p class="provenance" id="provenance" aria-live="polite"></p>
@@ -114,6 +117,29 @@
     <p>Lapse scores each branded drug 0&ndash;100 on market size, expiry timing, and generic / biosimilar competition.
        Higher rank = more attractive entry target. Sources: FDA Orange Book &amp; Purple Book, CMS Part&nbsp;B / Part&nbsp;D.</p>
   </footer>
+
+  <div class="modal-shell" id="about-modal" hidden>
+    <div class="modal-backdrop" data-about-close></div>
+    <section class="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-title" aria-describedby="about-summary">
+      <button class="modal-close" id="about-close" type="button" aria-label="Close about Lapse">&times;</button>
+      <p class="modal-kicker" id="about-title">What&rsquo;s Lapse?</p>
+      <p id="about-summary" class="modal-lede">Which drugs should a generic manufacturer file on next. Ranked, off public data.</p>
+      <p>Between 2025 and 2030, branded drugs worth an estimated $200B+ in annual sales lose patent protection. Generic and biosimilar makers have to decide which of those drugs to pursue with limited resources, and today they do it by hand, stitching together government databases.</p>
+      <p>Lapse turns that manual research into a ranked, scored intelligence layer. It joins FDA Orange Book, FDA Purple Book, CMS Medicare Part D and Part B spending data, openFDA Drugs@FDA ANDA signals, openFDA Drug Labeling descriptions, and biosimilar competition signals, then scores small molecules and biologics in one cross-modality opportunity table.</p>
+      <div class="about-section">
+        <h3>Who it&rsquo;s for</h3>
+        <p>Generic and biosimilar makers, business-development teams, portfolio strategy teams, and analysts deciding which branded drugs to pursue with limited resources.</p>
+      </div>
+      <div class="about-section">
+        <h3>What it does</h3>
+        <ul>
+          <li>Ingests FDA Orange Book, FDA Purple Book biologics, CMS Part D and Part B spending, openFDA ANDA products, and openFDA label descriptions.</li>
+          <li>Joins and scores small molecules and biologics on market size, protection-expiry timing, match quality, and modality-specific competition density.</li>
+          <li>Ranks the universe into a single drug opportunities table.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
 
   <script type="module" src="js/app.js"></script>
 </body>

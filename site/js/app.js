@@ -229,8 +229,44 @@ async function loadDoc() {
   return res.json();
 }
 
+function isAboutModalOpen() {
+  return document.getElementById('about-modal')?.hidden === false;
+}
+
+function initAboutModal() {
+  const modal = document.getElementById('about-modal');
+  const open = document.getElementById('about-open');
+  const close = document.getElementById('about-close');
+  if (!modal || !open || !close) return;
+
+  let lastFocus = null;
+  const openModal = () => {
+    lastFocus = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    close.focus();
+  };
+  const closeModal = () => {
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+  };
+
+  open.addEventListener('click', openModal);
+  close.addEventListener('click', closeModal);
+  modal.querySelectorAll('[data-about-close]').forEach((target) => target.addEventListener('click', closeModal));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isAboutModalOpen()) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeModal();
+    }
+  });
+}
+
 async function init() {
   buildLegend();
+  initAboutModal();
   const chart = createChart(document.getElementById('chart'), (id) => store.select(id));
   store.subscribe((s) => { renderMeta(s); renderFilters(s); renderSearch(s); renderDetail(s); renderWorklist(s); chart.update(s); });
 
@@ -245,7 +281,7 @@ async function init() {
     const tr = e.target.closest('tr[data-id]');
     if (tr) store.select(tr.dataset.id);
   });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') store.select(null); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !isAboutModalOpen()) store.select(null); });
 
   try {
     const doc = await loadDoc();

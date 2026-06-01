@@ -60,6 +60,12 @@ custom_checks:
   - name: label enrichment text is constrained
     query: select count(*) from staging.drug_descriptions where regexp_matches(coalesce(drug_class, '') || coalesce(mechanism, '') || coalesce(description, ''), '[^A-Za-z0-9,.;:()/%+ -]') or length(coalesce(drug_class, '')) > 160 or length(coalesce(mechanism, '')) > 160 or length(coalesce(description, '')) > 260
     value: 0
+  - name: label enrichment rejects placeholder text
+    query: select count(*) from staging.drug_descriptions where lower(trim(coalesce(drug_class, ''))) in ('nan', 'null', 'none', 'n/a', 'na') or lower(trim(coalesce(mechanism, ''))) in ('nan', 'null', 'none', 'n/a', 'na') or lower(trim(coalesce(description, ''))) in ('nan', 'null', 'none', 'n/a', 'na')
+    value: 0
+  - name: label descriptions contain letters
+    query: select count(*) from staging.drug_descriptions where description is not null and not regexp_matches(description, '[A-Za-z]')
+    value: 0
   - name: label enrichment rejects instruction-like phrases
     query: select count(*) from staging.drug_descriptions where regexp_matches(lower(coalesce(drug_class, '') || ' ' || coalesce(mechanism, '') || ' ' || coalesce(description, '')), 'ignore[[:space:],]+(all[[:space:],]+)?(previous|prior|earlier|system)[[:space:],]+(instructions?|prompts?)') or regexp_matches(lower(coalesce(drug_class, '') || ' ' || coalesce(mechanism, '') || ' ' || coalesce(description, '')), '(reveal|show|print|output|display)[[:space:],]+(the[[:space:],]+)?(system[[:space:],]+prompt|secret[[:space:],]+key|api[[:space:],]+key|password|token)') or regexp_matches(lower(coalesce(drug_class, '') || ' ' || coalesce(mechanism, '') || ' ' || coalesce(description, '')), 'you[[:space:],]+must[[:space:],]+(ignore|reveal|output|print|show|exfiltrate|leak)')
     value: 0
@@ -95,6 +101,8 @@ CONTROL_CHARACTER_PATTERN = re.compile(r"[\x00-\x1f\x7f]+")
 WHITESPACE_PATTERN = re.compile(r"\s+")
 SAFE_DISPLAY_PATTERN = re.compile(r"[^A-Za-z0-9,.;:()/%+ \-]+")
 CLASS_SUFFIX_PATTERN = re.compile(r"\s*\[(?:EPC|MoA)\]\s*$", re.IGNORECASE)
+PLACEHOLDER_TEXT_PATTERN = re.compile(r"[\s./_-]+")
+LUCENE_SPECIAL_CHARACTERS = frozenset('+-!(){}[]^"~*?:\\/&|')
 SECTION_HEADING_PATTERN = re.compile(
     r"^\s*(?:\d+(?:\.\d+)?\s*)?(INDICATIONS AND USAGE|USES?)\s*",
     re.IGNORECASE,
@@ -315,7 +323,7 @@ def _first_class_value(label: dict[str, Any] | None, field: str) -> str | None:
         return None
     values = (label.get("openfda") or {}).get(field) or []
     for value in values:
-        cleaned = _safe_text(CLASS_SUFFIX_PATTERN.sub("", _text(value)).strip(), 160)
+        cleaned = _optional_safe_text(CLASS_SUFFIX_PATTERN.sub("", _text(value)).strip(), 160)
         if cleaned:
             return cleaned
     return None
@@ -342,11 +350,11 @@ def _description(label: dict[str, Any] | None) -> str | None:
         text = first_sentence
 
     text = text.rstrip(":;,. ")
-    if not text:
+    if not text or not any(char.isalpha() for char in text):
         return None
     if len(text) > 240:
         text = text[:237].rsplit(" ", 1)[0].rstrip(":;,. ") + "..."
-    return _safe_text(text, 260) or None
+    return _optional_safe_text(text, 260)
 
 
 def _selected_set_id(label: dict[str, Any] | None) -> str | None:
@@ -374,7 +382,8 @@ def _decode_bounded_text(value: object) -> str:
 
 
 def _escape_query_term(value: str) -> str:
-    return value.replace("\\", " ").replace('"', " ").strip()
+    text = WHITESPACE_PATTERN.sub(" ", CONTROL_CHARACTER_PATTERN.sub(" ", _text(value))).strip()
+    return "".join(f"\\{char}" if char in LUCENE_SPECIAL_CHARACTERS else char for char in text)
 
 
 def _split_values(value: object) -> list[str]:
@@ -389,6 +398,14 @@ def _safe_text(value: object, max_chars: int) -> str:
     without_controls = CONTROL_CHARACTER_PATTERN.sub(" ", _text(value))
     safe = SAFE_DISPLAY_PATTERN.sub(" ", without_controls)
     return WHITESPACE_PATTERN.sub(" ", safe).strip()[:max_chars].strip()
+
+
+def _optional_safe_text(value: object, max_chars: int) -> str | None:
+    cleaned = _safe_text(value, max_chars)
+    if not cleaned:
+        return None
+    normalized = PLACEHOLDER_TEXT_PATTERN.sub("", cleaned).lower()
+    return None if normalized in {"nan", "null", "none", "na"} else cleaned
 
 
 def _text(value: object) -> str:

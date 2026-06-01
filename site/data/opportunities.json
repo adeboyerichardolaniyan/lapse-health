@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "generated_at": "2026-06-01T00:29:12Z",
+    "generated_at": "2026-06-01T00:51:48Z",
     "source_year": 2023,
     "sample": false,
     "schema_version": 3,
@@ -190,7 +190,7 @@
       "filer_count": 0,
       "why": "No biosimilars yet",
       "drug_class": "Selective T Cell Costimulation Modulator",
-      "mechanism": "nan",
+      "mechanism": null,
       "description": "ORENCIA is a selective T cell costimulation modulator indicated for"
     },
     {
@@ -261,8 +261,8 @@
       "window_label": "Opens in 4 mo",
       "filer_count": 0,
       "why": "No biosimilars yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "CRYSVITA is a fibroblast growth factor 23 (FGF23) blocking antibody indicated for"
     },
     {
@@ -297,8 +297,8 @@
       "window_label": "Opens in 14 mo",
       "filer_count": 0,
       "why": "No biosimilars yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "MONJUVI, in combination with lenalidomide, is indicated for the treatment of adult patients with relapsed or refractory diffuse large B-cell lymphoma (DLBCL) not otherwise specified, including DLBCL arising from low grade lymphoma, and..."
     },
     {
@@ -333,9 +333,9 @@
       "window_label": "Opens in 7 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
-      "description": "1"
+      "drug_class": null,
+      "mechanism": null,
+      "description": null
     },
     {
       "id": "small_molecule|206256",
@@ -405,9 +405,9 @@
       "window_label": "Opens in 5 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
-      "description": "nan"
+      "drug_class": null,
+      "mechanism": null,
+      "description": null
     },
     {
       "id": "small_molecule|021902",
@@ -423,8 +423,8 @@
       "window_label": "Opens in 5 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "Veregen is a topical ointment indicated for the treatment of external genital and perianal warts (Condylomata acuminata) in immunocompetent patients 18 years and older (1.1)"
     },
     {
@@ -441,8 +441,8 @@
       "window_label": "Opens in 17 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "ARIDOL is indicated for the assessment of bronchial hyperresponsiveness in adult and pediatric patients 6 years of age or older who do not have clinically apparent asthma"
     },
     {
@@ -459,9 +459,9 @@
       "window_label": "Opens in 9 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
-      "description": "nan"
+      "drug_class": null,
+      "mechanism": null,
+      "description": null
     },
     {
       "id": "small_molecule|021978",
@@ -495,8 +495,8 @@
       "window_label": "Opens in 13 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "PREZISTA, co-administered with ritonavir (PREZISTA/ritonavir), in combination with other antiretroviral agents, is indicated for the treatment of human immunodeficiency virus (HIV-1) infection in adult and pediatric patients 3 years of..."
     },
     {
@@ -531,8 +531,8 @@
       "window_label": "Opens in 13 mo",
       "filer_count": 0,
       "why": "No biosimilars yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "ILARIS is an interleukin-1 blocker indicated for the treatment of"
     },
     {
@@ -549,8 +549,8 @@
       "window_label": "Opens in 2 mo",
       "filer_count": 0,
       "why": "No biosimilars yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "RUCONEST is a C1 esterase inhibitor recombinant indicated for the treatment of acute attacks in adult and adolescent patients with hereditary angioedema (HAE)"
     },
     {
@@ -585,8 +585,8 @@
       "window_label": "Opens in 17 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "helps reduce bacteria that can potentially cause skin infection for preparation of skin prior to surgery"
     },
     {
@@ -621,8 +621,8 @@
       "window_label": "Expired 7 mo ago",
       "filer_count": 0,
       "why": "No biosimilars yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "HEMLIBRA is indicated for routine prophylaxis to prevent or reduce the frequency of bleeding episodes in adult and pediatric patients ages newborn and older with hemophilia A (congenital factor VIII deficiency) with or without factor..."
     },
     {
@@ -639,8 +639,8 @@
       "window_label": "Opens in 12 mo",
       "filer_count": 11,
       "why": "Window is near, but generics crowding",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "JANUVIA is indicated as an adjunct to diet and exercise to improve glycemic control in adults with type 2 diabetes mellitus"
     },
     {
@@ -675,8 +675,8 @@
       "window_label": "Opens in 3 mo",
       "filer_count": 1,
       "why": "Near-term window",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "Fluticasone Propionate HFA is indicated for the maintenance treatment of asthma as prophylactic therapy in adult and pediatric patients aged 4 years and older"
     },
     {
@@ -747,8 +747,8 @@
       "window_label": "Opens in 12 mo",
       "filer_count": 1,
       "why": "Near-term window",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "AVEED is indicated for testosterone replacement therapy in adult males for conditions associated with a deficiency or absence of endogenous testosterone"
     },
     {
@@ -765,8 +765,8 @@
       "window_label": "Opens in 7 mo",
       "filer_count": 1,
       "why": "Near-term window",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "Clindesse is a lincosamide antibacterial indicated for the treatment of bacterial vaginosis in non-pregnant women ( 1.1 ) 1.1 Treatment of Bacterial Vaginosis Clindesse is indicated for the treatment of bacterial vaginosis (formerly..."
     },
     {
@@ -785,7 +785,7 @@
       "why": "No biosimilars yet",
       "drug_class": "SLAMF7-directed Immunostimulatory Antibody",
       "mechanism": "SLAMF7-directed Antibody Interactions",
-      "description": "nan"
+      "description": null
     },
     {
       "id": "biologic|PROPER18:MOGAMULIZUMAB-KPKCPROPRIETARY9:POTELIGEO",
@@ -837,8 +837,8 @@
       "window_label": "Opens in 3 mo",
       "filer_count": 1,
       "why": "Near-term window",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "Tekturna is a renin inhibitor (RI) indicated for the treatment of hypertension in adults and in pediatric patients weighing 50 kg or greater who are at least 6 years of age, to lower blood pressure"
     },
     {
@@ -855,8 +855,8 @@
       "window_label": "Expired 2 mo ago",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "Fluticasone Furoate ELLIPTA is indicated for the maintenance treatment of asthma in adult and pediatric patients aged 5 years and older"
     },
     {
@@ -909,8 +909,8 @@
       "window_label": "Opens in 8 mo",
       "filer_count": 0,
       "why": "No generics yet",
-      "drug_class": "nan",
-      "mechanism": "nan",
+      "drug_class": null,
+      "mechanism": null,
       "description": "STRIVERDI RESPIMAT Inhalation Spray is a long-acting beta 2 -adrenergic agonist (LABA) indicated for"
     }
   ]

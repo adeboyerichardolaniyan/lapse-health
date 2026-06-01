@@ -55,9 +55,52 @@ p { margin: 0; }
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
   gap: 8px 16px; max-width: var(--maxw); margin: 0 auto; padding: 22px 20px 14px;
 }
+.brand-row { display: flex; align-items: baseline; gap: 10px; }
 .brand h1 { font-size: 1.5rem; }
 .tagline { color: var(--ink-soft); font-size: 0.9375rem; margin-top: 2px; }
 .provenance { color: var(--ink-faint); font-size: 0.8125rem; }
+.about-link {
+  appearance: none; border: none; background: none; color: var(--ink-soft);
+  font: inherit; font-size: 0.8125rem; line-height: 1; cursor: pointer;
+  padding: 2px 0; text-decoration: underline; text-underline-offset: 3px;
+}
+.about-link:hover { color: var(--ink); }
+.about-link:focus-visible, .modal-close:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+body.modal-open { overflow: hidden; }
+.modal-shell[hidden] { display: none; }
+.modal-shell {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px;
+}
+.modal-backdrop {
+  position: absolute; inset: 0; background: rgba(24, 24, 27, 0.3);
+}
+.about-modal {
+  position: relative; width: min(100%, 38rem); max-height: min(86vh, 44rem); overflow: auto;
+  background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(24, 24, 27, 0.18); padding: 20px;
+}
+.modal-close {
+  appearance: none; position: absolute; top: 12px; right: 12px;
+  width: 30px; height: 30px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: var(--bg); color: var(--ink-soft); font: inherit; font-size: 1.125rem;
+  line-height: 1; cursor: pointer;
+}
+.modal-close:hover { color: var(--ink); border-color: var(--ink-faint); }
+.modal-kicker {
+  color: var(--accent); font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.04em; padding-right: 36px;
+}
+.about-modal h2 { margin-top: 5px; padding-right: 36px; font-size: 1.25rem; }
+.about-modal h3 {
+  color: var(--ink-soft); font-size: 0.75rem; text-transform: uppercase;
+  letter-spacing: 0.04em; margin-top: 16px;
+}
+.about-modal p, .about-modal li { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.52; }
+.about-modal p { margin-top: 10px; }
+.about-modal .modal-lede { color: var(--ink); font-weight: 500; }
+.about-modal ul { margin: 8px 0 0; padding-left: 18px; }
+.about-modal li + li { margin-top: 6px; }
 
 /* ---- sample banner ---- */
 .banner {
