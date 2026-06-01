@@ -1,0 +1,27 @@
+/lapse-build-spec.md
+/REVIEW_CONTEXT.md
+/REVIEW_SECURITY.md
+/REVIEW_STANDARDS.md
+/CLAUDE.md
+
+/planning-docs
+
+# Local Bruin runtime configuration and generated pipeline artifacts.
+.bruin.yml
+!/.bruin.yml.example
+/.bruin/
+/lapse.db
+/*.duckdb
+/*.db
+/data/
+/downloads/
+/exports/
+logs/
+logs/runs
+logs/*.log
+logs/queries
+.playwright-mcp/
+
+# Python cache output from future ingestion assets.
+__pycache__/
+*.py[cod]

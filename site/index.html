@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lapse: Generic &amp; biosimilar opportunity map</title>
+  <meta name="description" content="Ranked map of branded drugs by how attractive their upcoming patent / exclusivity expiry makes them as a generic or biosimilar target." />
+  <!-- Run locally:  cd site && python3 -m http.server 8000  →  http://localhost:8000/
+       Static, offline, zero dependencies. The only fetch is data/opportunities.json. -->
+  <link rel="stylesheet" href="app.css?v=phase13-breakdown" />
+</head>
+<body>
+  <a class="skip-link" href="#worklist">Skip to ranked list</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <h1>Lapse</h1>
+      <p class="tagline">Generic &amp; biosimilar opportunity map</p>
+    </div>
+    <p class="provenance" id="provenance" aria-live="polite"></p>
+  </header>
+
+  <div class="banner" id="sample-banner" role="status" hidden></div>
+
+  <section class="filters" id="filters" aria-label="Filters">
+    <div class="filter-group" data-filter="modality">
+      <span class="filter-label" id="lbl-modality">Modality</span>
+      <div class="chips" role="group" aria-labelledby="lbl-modality">
+        <button class="chip" type="button" data-val="all" aria-pressed="true">All</button>
+        <button class="chip chip--sm" type="button" data-val="small_molecule" aria-pressed="false">Small molecule</button>
+        <button class="chip chip--bio" type="button" data-val="biologic" aria-pressed="false">Biologic</button>
+      </div>
+    </div>
+    <div class="filter-group" data-filter="window">
+      <span class="filter-label" id="lbl-window">Window</span>
+      <div class="chips" role="group" aria-labelledby="lbl-window">
+        <button class="chip" type="button" data-val="all" aria-pressed="true">All</button>
+        <button class="chip" type="button" data-val="open" aria-pressed="false">Open / &le;18&nbsp;mo</button>
+        <button class="chip" type="button" data-val="mid" aria-pressed="false">19&ndash;36&nbsp;mo</button>
+        <button class="chip" type="button" data-val="later" aria-pressed="false">37+&nbsp;mo</button>
+      </div>
+    </div>
+    <div class="filter-group" data-filter="market">
+      <span class="filter-label" id="lbl-market">Market</span>
+      <div class="chips" role="group" aria-labelledby="lbl-market">
+        <button class="chip" type="button" data-val="all" aria-pressed="true">Any</button>
+        <button class="chip" type="button" data-val="large" aria-pressed="false">Large+</button>
+        <button class="chip" type="button" data-val="blockbuster" aria-pressed="false">Blockbuster</button>
+      </div>
+    </div>
+    <div class="filter-group" data-filter="competition">
+      <span class="filter-label" id="lbl-competition">Competition</span>
+      <div class="chips" role="group" aria-labelledby="lbl-competition">
+        <button class="chip" type="button" data-val="all" aria-pressed="true">Any</button>
+        <button class="chip" type="button" data-val="open" aria-pressed="false">Open field</button>
+        <button class="chip" type="button" data-val="some" aria-pressed="false">Some</button>
+        <button class="chip" type="button" data-val="crowded" aria-pressed="false">Crowded</button>
+      </div>
+    </div>
+    <button class="reset" id="f-reset" type="button">Reset</button>
+  </section>
+
+  <main class="layout">
+    <section class="region chart-region" aria-label="Opportunity map">
+      <div class="region-head">
+        <div>
+          <h2>Opportunity map</h2>
+          <p class="region-sub">Months to window <span aria-hidden="true">&rarr;</span> vs annual market size, sized by score</p>
+        </div>
+        <div class="legend" id="legend" aria-hidden="true"></div>
+      </div>
+      <div class="chart-wrap" id="chart"></div>
+    </section>
+
+    <div class="lower">
+      <section class="region detail-region" aria-label="Selected drug detail">
+        <div id="detail" class="detail"></div>
+      </section>
+
+      <section class="region worklist-region" aria-label="Ranked worklist">
+        <div class="region-head">
+          <div>
+            <h2>Worklist</h2>
+            <p class="count" id="worklist-count"></p>
+          </div>
+          <label class="search-box" for="worklist-search">
+            <span class="search-label">Search</span>
+            <input id="worklist-search" class="search-input" type="search" autocomplete="off" list="drug-search-options" />
+            <datalist id="drug-search-options"></datalist>
+          </label>
+        </div>
+        <div class="table-scroll">
+          <table id="worklist">
+            <thead>
+              <tr>
+                <th scope="col" class="num">Rank</th>
+                <th scope="col">Drug</th>
+                <th scope="col" class="num">Score</th>
+                <th scope="col" class="num col-market">Market</th>
+                <th scope="col" class="col-window">Window</th>
+                <th scope="col" class="num col-sub" title="Timing">T</th>
+                <th scope="col" class="num col-sub" title="Market">M</th>
+                <th scope="col" class="num col-sub" title="Competition">C</th>
+              </tr>
+            </thead>
+            <tbody id="worklist-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>Lapse scores each branded drug 0&ndash;100 on market size, expiry timing, and generic / biosimilar competition.
+       Higher rank = more attractive entry target. Sources: FDA Orange Book &amp; Purple Book, CMS Part&nbsp;B / Part&nbsp;D.</p>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

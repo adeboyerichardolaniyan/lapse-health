@@ -1,0 +1,12 @@
+name: lapse
+default_connections:
+  duckdb: duckdb-default
+concurrency: 1
+tags:
+  - bruin
+  - duckdb
+  - pharma
+  - competition
+meta:
+  owner: lapse
+  purpose: generic-entry-opportunity-ranking
